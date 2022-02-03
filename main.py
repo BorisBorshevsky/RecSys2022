@@ -41,7 +41,7 @@ user_train_set, item_train_set, user_test_set, item_test_set \
     = read_rating(path, num_users, num_items, num_total_ratings, 1, 0, train_ratio)
 
 config = tf.ConfigProto()
-config.gpu_options.allow_growth=True
+config.gpu_options.allow_growth = True
 with tf.Session(config=config) as sess:
     AutoRec = AutoRec(sess, args,
                       num_users, num_items,

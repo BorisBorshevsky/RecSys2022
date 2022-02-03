@@ -60,6 +60,17 @@ class AutoRec:
         self.result_path = result_path
         self.grad_clip = args.grad_clip
 
+        # to be filled in prepare step
+        self.input_R = None
+        self.input_mask_R = None
+
+        self.Encoder = None
+        self.Decoder = None
+
+        self.cost = None
+        self.optimizer = None
+
+
     def run(self):
         self.prepare_model()
         init = tf.global_variables_initializer()
