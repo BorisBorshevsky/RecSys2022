@@ -11,8 +11,7 @@ tf.disable_v2_behavior()
 class AutoRec:
     def __init__(self, sess, args,
                  num_users, num_items,
-                 R, mask_R, C, train_R, train_mask_R, test_R, test_mask_R, num_train_ratings, num_test_ratings,
-                 user_train_set, item_train_set, user_test_set, item_test_set,
+                 rating,
                  result_path):
 
         self.sess = sess
@@ -21,20 +20,20 @@ class AutoRec:
         self.num_users = num_users
         self.num_items = num_items
 
-        self.R = R
-        self.mask_R = mask_R
-        self.C = C
-        self.train_R = train_R
-        self.train_mask_R = train_mask_R
-        self.test_R = test_R
-        self.test_mask_R = test_mask_R
-        self.num_train_ratings = num_train_ratings
-        self.num_test_ratings = num_test_ratings
+        self.R = rating.R  # Ratings user X item
+        self.mask_R = rating.mask_R  # mask for items with data on R
+        self.C = rating.C  # mask for items with data on R (with factor One)
+        self.train_R = rating.train_R  # Ratings user X item (only train)
+        self.train_mask_R = rating.train_mask_R  # mask for Ratings user X item (only train)
+        self.test_R = rating.test_R  # Ratings user X item (only test)
+        self.test_mask_R = rating.test_mask_R  # mask for Ratings user X item (only test)
+        self.num_train_ratings = rating.num_train_ratings
+        self.num_test_ratings = rating.num_test_ratings
 
-        self.user_train_set = user_train_set
-        self.item_train_set = item_train_set
-        self.user_test_set = user_test_set
-        self.item_test_set = item_test_set
+        self.user_train_set = rating.user_train_set
+        self.item_train_set = rating.item_train_set
+        self.user_test_set = rating.user_test_set
+        self.item_test_set = rating.item_test_set
 
         self.hidden_neuron = args.hidden_neuron
         self.train_epoch = args.train_epoch
@@ -44,7 +43,6 @@ class AutoRec:
         self.base_lr = args.base_lr
         self.optimizer_method = args.optimizer_method
         self.display_step = args.display_step
-        self.random_seed = args.random_seed
 
         self.global_step = tf.Variable(0, trainable=False)
         self.decay_epoch_step = args.decay_epoch_step
@@ -69,7 +67,6 @@ class AutoRec:
 
         self.cost = None
         self.optimizer = None
-
 
     def run(self):
         self.prepare_model()
@@ -203,26 +200,14 @@ class AutoRec:
         test_record = self.result_path + "test_record.txt"
 
         with open(train_record, 'w') as f:
-            f.write(str("Cost:"))
-            f.write('\t')
-            for itr in range(len(self.train_cost_list)):
-                f.write(str(self.train_cost_list[itr]))
-                f.write('\t')
-            f.write('\n')
+            f.write("{}\t\n".format("cost:"))
+            for cost in self.train_cost_list:
+                f.write("{}\n".format(cost))
 
         with open(test_record, 'w') as g:
-            g.write(str("Cost:"))
-            g.write('\t')
-            for itr in range(len(self.test_cost_list)):
-                g.write(str(self.test_cost_list[itr]))
-                g.write('\t')
-            g.write('\n')
-
-            g.write(str("RMSE:"))
-            for itr in range(len(self.test_rmse_list)):
-                g.write(str(self.test_rmse_list[itr]))
-                g.write('\t')
-            g.write('\n')
+            g.write("{}\t{}\t{}\n".format('idx:', 'cost:', 'rmse:'))
+            for idx, (cost, rmse) in enumerate(zip(self.test_cost_list, self.test_rmse_list)):
+                g.write("{}\t{}\t{}\n".format(idx, cost, rmse))
 
         with open(basic_info, 'w') as h:
             h.write(str(self.args))
