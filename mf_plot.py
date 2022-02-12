@@ -28,7 +28,7 @@ def draw_plot():
 
     plt.legend()
     plt.ylabel('RMSE')
-    plt.xlabel('iter')
+    plt.xlabel('Iterations')
 
     plt.show()
 
