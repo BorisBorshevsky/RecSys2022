@@ -10,8 +10,8 @@ init_params = params
 
 def mf_data(params):
     data, results = pkl_name(params)
-    model = load(data)
-    return model.training_process, "RMSE - lr {} lf {}".format(params.lr, params.latent_factor)
+    model = load(results)
+    return model, "RMSE - lr {} lf {}".format(params.lr, params.latent_factor)
 
 
 def draw_plot():
