@@ -6,7 +6,6 @@ from constants import PATH, NUM_USERS, NUM_ITEMS, NUM_TOTAL_RATINGS, SEED, param
 from data_preprocessor import read_rating
 from mf import MF
 from serializer import dump, load
-from constants import params1
 
 np.random.seed(SEED)
 
@@ -37,4 +36,4 @@ def run(my_params):
         print("dumped results to {}".format(results_name))
 
 
-run(params1)
+run(params)
