@@ -36,8 +36,12 @@ params3 = MFParams(0.01, 10, 0.001, 200)
 params4 = MFParams(0.001, 10, 0.001, 200)
 
 # Boris
-params5 = MFParams(0.001, 5, 0.001, 200)
-params6 = MFParams(0.01, 5, 0.001, 200)
+
+params5 = MFParams(0.001, 5, 0.001, 400)
+params6 = MFParams(0.01, 5, 0.001, 400)
+
+boris = [params5, params6]
+
 
 def pkl_name(mf_params: MFParams) -> (str, str):
     return ("pickle/mf_{}_{}_{}.pkl".format(mf_params.lr, mf_params.latent_factor, mf_params.reg),
