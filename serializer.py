@@ -2,7 +2,7 @@ import pickle
 
 
 def dump(model, file_name):
-    # open a file, where you ant to store the data
+    # open a file, where you want to store the data
     file = open(file_name, 'wb')
 
     # dump information to that file
@@ -16,7 +16,7 @@ def load(file_name):
     # open a file, where you stored the pickled data
     file = open(file_name, 'rb')
 
-    # dump information to that file
+    # load information from that file
     data = pickle.load(file)
 
     # close the file

@@ -31,7 +31,7 @@ params = MFParams(0.001, 5, 0.001, 20)
 
 # Anna
 params1 = MFParams(0.001, 20, 0.001, 200)
-params2 = MFParams(0.01, 20, 0.001, 200)
+params2 = MFParams(0.01, 20, 0.001, 2000)
 params3 = MFParams(0.01, 10, 0.001, 200)
 params4 = MFParams(0.001, 10, 0.001, 200)
 
