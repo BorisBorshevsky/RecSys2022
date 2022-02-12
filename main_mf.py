@@ -39,6 +39,8 @@ def run(my_params):
             break
 
 
-
 for p in boris:
-    run(p)
+    try:
+        run(p)
+    except Exception as e:
+        print(p, e)

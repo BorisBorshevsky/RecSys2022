@@ -35,12 +35,14 @@ params2 = MFParams(0.01, 20, 0.001, 200)
 params3 = MFParams(0.01, 10, 0.001, 200)
 params4 = MFParams(0.001, 10, 0.001, 200)
 
+anna = [params1, params2, params3, params4]
 # Boris
 
-params5 = MFParams(0.001, 5, 0.001, 400)
-params6 = MFParams(0.01, 5, 0.001, 400)
+params5 = MFParams(0.001, 5, 0.001, 1000)
+params6 = MFParams(0.01, 5, 0.001, 1000)
+params7 = MFParams(0.001, 50, 0.001, 1000)
 
-boris = [params5, params6]
+boris = [params5, params6, params7]
 
 
 def pkl_name(mf_params: MFParams) -> (str, str):
