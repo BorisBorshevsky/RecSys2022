@@ -26,7 +26,7 @@ class MF(object):
         self.training_process = []
         self.iter = 0
 
-        # Initialize user and item latent feature matrice
+        # Initialize user and item latent feature matrices
         self.P = np.random.normal(scale=1. / self.K, size=(self.num_users, self.K))
         self.Q = np.random.normal(scale=1. / self.K, size=(self.num_items, self.K))
 
@@ -64,10 +64,10 @@ class MF(object):
 
     def sgd(self):
         """
-        Perform stochastic graident descent
+        Perform stochastic gradient descent
         """
         for i, j, r in self.samples:
-            # Computer prediction and error
+            # Compute prediction and error
             prediction = self.get_rating(i, j)
             e = (r - prediction)
 
@@ -88,6 +88,6 @@ class MF(object):
 
     def full_matrix(self):
         """
-        Computer the full matrix using the resultant biases, P and Q
+        Compute the full matrix using the resultant biases, P and Q
         """
         return self.b + self.b_u[:, np.newaxis] + self.b_i[np.newaxis:, ] + self.P.dot(self.Q.T)
