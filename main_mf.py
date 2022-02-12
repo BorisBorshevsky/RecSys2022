@@ -2,7 +2,7 @@ import os
 
 import numpy as np
 
-from constants import PATH, NUM_USERS, NUM_ITEMS, NUM_TOTAL_RATINGS, SEED, params, pkl_name
+from constants import PATH, NUM_USERS, NUM_ITEMS, NUM_TOTAL_RATINGS, SEED, pkl_name, boris
 from data_preprocessor import read_rating
 from mf import MF
 from serializer import dump, load
@@ -31,9 +31,14 @@ def run(my_params):
         print(model.training_process)
         dump(model, filename)
         dump(model.training_process, results_name)
-
         print("dumped to {}".format(filename))
         print("dumped results to {}".format(results_name))
 
+        if model.iter_done >= my_params.epoch:
+            print("done {} iterations, exiting".format(model.iter_done))
+            break
 
-run(params)
+
+
+for p in boris:
+    run(p)

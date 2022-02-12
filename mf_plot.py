@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from constants import params, pkl_name, MFParams
 from serializer import load
 
-init_params = params
+# init_params = params
 
 
 def mf_data(params):
