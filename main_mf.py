@@ -9,25 +9,31 @@ from serializer import dump, load
 
 np.random.seed(SEED)
 
-filename, results_name = pkl_name(params)
 
-if os.path.exists(filename):
-    model = load(filename)
-else:
-    rating = read_rating(PATH, NUM_USERS, NUM_ITEMS, NUM_TOTAL_RATINGS)
-    model = MF(
-        rating.R,
-        K=params.latent_factor,
-        alpha=params.lr,
-        beta=params.reg,
-    )
+def run(my_params):
+    filename, results_name = pkl_name(my_params)
 
-for i in range(300):
-    # dump each 5 iterations
-    model.train(5)
-    print(model.training_process)
-    dump(model, filename)
-    dump(model.training_process, results_name)
+    if os.path.exists(filename):
+        model = load(filename)
+    else:
+        rating = read_rating(PATH, NUM_USERS, NUM_ITEMS, NUM_TOTAL_RATINGS)
+        model = MF(
+            rating.R,
+            K=my_params.latent_factor,
+            alpha=my_params.lr,
+            beta=my_params.reg,
+        )
 
-    print("dumped to {}".format(filename))
-    print("dumped results to {}".format(results_name))
+    split = 5
+    for i in range(int(my_params.epoch / split)):
+        # dump each 5 iterations
+        model.train(split)
+        print(model.training_process)
+        dump(model, filename)
+        dump(model.training_process, results_name)
+
+        print("dumped to {}".format(filename))
+        print("dumped results to {}".format(results_name))
+
+
+run(params)
