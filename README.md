@@ -3,7 +3,10 @@
 python main.mf
 ```
 
-## Drawing plots of MF
+## Drawing plots of results
+```
+python mf_plot.py
+```
 
 
 
