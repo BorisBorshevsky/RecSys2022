@@ -9,7 +9,7 @@ from serializer import dump, load
 
 np.random.seed(SEED)
 
-filename = pkl_name(params)
+filename, results_name = pkl_name(params)
 
 if os.path.exists(filename):
     model = load(filename)
@@ -22,9 +22,12 @@ else:
         beta=params.reg,
     )
 
-for i in range(100):
+for i in range(300):
     # dump each 5 iterations
     model.train(5)
     print(model.training_process)
     dump(model, filename)
+    dump(model.training_process, results_name)
+
     print("dumped to {}".format(filename))
+    print("dumped results to {}".format(results_name))

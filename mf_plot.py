@@ -9,12 +9,13 @@ init_params = params
 
 
 def mf_data(params):
-    model = load(pkl_name(params))
+    data, results = pkl_name(params)
+    model = load(data)
     return model.training_process, "RMSE - lr {} lf {}".format(params.lr, params.latent_factor)
 
 
 def draw_plot():
-    models = os.listdir('pickle')
+    models = os.listdir('pickle_res')
     for model in models:
         filename = model.replace(".pkl", "")
         alg, lr, lf, reg = filename.split("_")

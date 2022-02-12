@@ -2,21 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1cc29f77-0258-4629-9f81-e9bc0a514b26" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Project_Recsys_2021_v3.pdf" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main_mf.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mf.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mf_plot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/serializer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Autorec.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Autorec.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AutoRec.py" beforeDir="false" afterPath="$PROJECT_DIR$/AutoRec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data_preprocessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/data_preprocessor.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/parser.py" beforeDir="false" afterPath="$PROJECT_DIR$/parser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main_mf.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_mf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mf_plot.py" beforeDir="false" afterPath="$PROJECT_DIR$/mf_plot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pickle/mf_0.001_5_0.001.pkl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pickle/mf_0.01_5_0.001.pkl" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,7 +54,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -168,7 +160,7 @@
       <workItem from="1643915983906" duration="5763000" />
       <workItem from="1644590988183" duration="8321000" />
       <workItem from="1644601596610" duration="278000" />
-      <workItem from="1644666573860" duration="16693000" />
+      <workItem from="1644666573860" duration="17842000" />
     </task>
     <servers />
   </component>

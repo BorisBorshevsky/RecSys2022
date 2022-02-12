@@ -27,8 +27,9 @@ MFParams = namedtuple('MFParams', [
     'epoch'
 ])
 
-params = MFParams(0.01, 5, 0.001, 20)
+params = MFParams(0.02, 10, 0.001, 20)
 
 
-def pkl_name(mf_params: MFParams) -> str:
-    return "pickle/mf_{}_{}_{}.pkl".format(mf_params.lr, mf_params.latent_factor, mf_params.reg)
+def pkl_name(mf_params: MFParams) -> (str, str):
+    return ("pickle/mf_{}_{}_{}.pkl".format(mf_params.lr, mf_params.latent_factor, mf_params.reg),
+            "pickle_res/mf_{}_{}_{}.pkl".format(mf_params.lr, mf_params.latent_factor, mf_params.reg))
