@@ -31,9 +31,13 @@ def run(my_params):
         print(model.training_process)
         dump(model, filename)
         dump(model.training_process, results_name)
-
         print("dumped to {}".format(filename))
         print("dumped results to {}".format(results_name))
+
+        if model.iter_done >= my_params.epoch:
+            print("done {} iterations, exiting".format(model.iter_done))
+            break
+
 
 
 for p in boris:
