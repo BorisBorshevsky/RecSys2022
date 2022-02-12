@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 import time
 
 DATA_FILE_NAME = 'ml-1m'
@@ -14,4 +16,19 @@ def get_results_path(optimizer_method, lr):
                                                                                       SEED=SEED,
                                                                                       optimizer_method=optimizer_method,
                                                                                       lr=lr,
-                                                                                      time=str(time.time()).split(".")[0])
+                                                                                      time=str(time.time()).split(".")[
+                                                                                          0])
+
+
+MFParams = namedtuple('MFParams', [
+    'lr',
+    'latent_factor',
+    'reg',
+    'epoch'
+])
+
+params = MFParams(0.01, 5, 0.001, 20)
+
+
+def pkl_name(mf_params: MFParams) -> str:
+    return "pickle/mf_{}_{}_{}.pkl".format(mf_params.lr, mf_params.latent_factor, mf_params.reg)

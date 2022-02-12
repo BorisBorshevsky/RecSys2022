@@ -53,7 +53,7 @@ def read_rating(path, num_users, num_items, num_total_ratings) -> Rating:
 
     lines = fp.readlines()
     for idx, line in enumerate(lines):
-        idx % 1000 == 0 and print("line {}".format(idx))
+        idx % 50000 == 0 and print("pre processing line num: {}".format(idx))
         user, item, rating, ts = line.split("::")
         user_idx = int(user) - 1
         item_idx = int(item) - 1
@@ -74,40 +74,6 @@ def read_rating(path, num_users, num_items, num_total_ratings) -> Rating:
 
             user_test_set.add(user_idx)
             item_test_set.add(item_idx)
-
-    # ''' Create Ratings matrix '''
-    # lines = fp.readlines()
-    # for line in lines:
-    #     user, item, rating, ts = line.split("::")
-    #     user_idx = int(user) - 1
-    #     item_idx = int(item) - 1
-    #     R[user_idx, item_idx] = int(rating)
-    #     mask_R[user_idx, item_idx] = 1
-    #     C[user_idx, item_idx] = 1
-    #
-    # ''' Train '''
-    # for itr in train_idx:
-    #     line = lines[itr]
-    #     user, item, rating, _ = line.split("::")
-    #     user_idx = int(user) - 1
-    #     item_idx = int(item) - 1
-    #     train_R[user_idx, item_idx] = int(rating)
-    #     train_mask_R[user_idx, item_idx] = 1
-    #
-    #     user_train_set.add(user_idx)
-    #     item_train_set.add(item_idx)
-    #
-    # ''' Test '''
-    # for itr in test_idx:
-    #     line = lines[itr]
-    #     user, item, rating, _ = line.split("::")
-    #     user_idx = int(user) - 1
-    #     item_idx = int(item) - 1
-    #     test_R[user_idx, item_idx] = int(rating)
-    #     test_mask_R[user_idx, item_idx] = 1
-    #
-    #     user_test_set.add(user_idx)
-    #     item_test_set.add(item_idx)
 
     return Rating(
         R,

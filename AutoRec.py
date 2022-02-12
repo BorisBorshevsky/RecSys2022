@@ -27,20 +27,20 @@ class AutoRec:
         self.train_mask_R = rating.train_mask_R  # mask for Ratings user X item (only train)
         self.test_R = rating.test_R  # Ratings user X item (only test)
         self.test_mask_R = rating.test_mask_R  # mask for Ratings user X item (only test)
-        self.num_train_ratings = rating.num_train_ratings
-        self.num_test_ratings = rating.num_test_ratings
+        self.num_train_ratings = rating.num_train_ratings  # amount of ratings in train set
+        self.num_test_ratings = rating.num_test_ratings  # amount of ratings in test set
 
         self.user_train_set = rating.user_train_set
         self.item_train_set = rating.item_train_set
         self.user_test_set = rating.user_test_set
         self.item_test_set = rating.item_test_set
 
-        self.hidden_neuron = args.hidden_neuron
-        self.train_epoch = args.train_epoch
-        self.batch_size = args.batch_size
-        self.num_batch = int(math.ceil(self.num_users / float(self.batch_size)))
+        self.hidden_neuron = args.hidden_neuron  # 500
+        self.train_epoch = args.train_epoch  # 2000
+        self.batch_size = args.batch_size  # 100
+        self.num_batch = int(math.ceil(self.num_users / float(self.batch_size)))  # how many batches
 
-        self.base_lr = args.base_lr
+        self.base_lr = args.base_lr  # leaning rate
         self.optimizer_method = args.optimizer_method
         self.display_step = args.display_step
 
@@ -82,7 +82,7 @@ class AutoRec:
         self.input_mask_R = tf.placeholder(dtype=tf.float32, shape=[None, self.num_items], name="input_mask_R")
 
         V = tf.get_variable(name="V", initializer=tf.truncated_normal(
-            shape=[self.num_items, self.hidden_neuron],
+            shape=[self.num_items, self.hidden_neuron],  # [num_items X 500] (K in paper)
             mean=0,
             stddev=0.03
         ), dtype=tf.float32)
@@ -90,7 +90,7 @@ class AutoRec:
         W = tf.get_variable(
             name="W",
             initializer=tf.truncated_normal(
-                shape=[self.hidden_neuron, self.num_items],
+                shape=[self.hidden_neuron, self.num_items],  # [500 X num_items] (K in paper)
                 mean=0,
                 stddev=0.03
             ), dtype=tf.float32)
@@ -106,19 +106,15 @@ class AutoRec:
             dtype=tf.float32)
 
         pre_Encoder = tf.matmul(self.input_R, V) + mu
-
         self.Encoder = tf.nn.sigmoid(pre_Encoder)
 
         pre_Decoder = tf.matmul(self.Encoder, W) + b
-
         self.Decoder = tf.identity(pre_Decoder)
 
         pre_rec_cost = tf.multiply((self.input_R - self.Decoder), self.input_mask_R)
-
         rec_cost = tf.square(self.l2_norm(pre_rec_cost))
 
         pre_reg_cost = tf.square(self.l2_norm(W)) + tf.square(self.l2_norm(V))
-
         reg_cost = self.lambda_value * 0.5 * pre_reg_cost
 
         self.cost = rec_cost + reg_cost
@@ -127,6 +123,8 @@ class AutoRec:
             optimizer = tf.train.AdamOptimizer(self.lr)
         elif self.optimizer_method == "RMSProp":
             optimizer = tf.train.RMSPropOptimizer(self.lr)
+        elif self.optimizer_method == "Adagrad":
+            optimizer = tf.train.AdagradOptimizer(self.lr)
         else:
             raise ValueError("Optimizer Key ERROR")
 
