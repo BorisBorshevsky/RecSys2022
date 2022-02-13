@@ -20,33 +20,34 @@ def get_results_path(optimizer_method, lr):
                                                                                           0])
 
 
-MFParams = namedtuple('MFParams', [
+
+RunParams = namedtuple('MFParams', [
     'lr',
-    'latent_factor',
+    'k',
     'reg',
     'epoch'
 ])
 
-params = MFParams(0.001, 5, 0.001, 20)
+params = RunParams(0.001, 5, 0.001, 20)
 
-iters = 400
+iters = 2000
 
 # Anna
-params1 = MFParams(0.001, 50, 0.001, iters)
-params2 = MFParams(0.005, 20, 0.001, iters)
-params3 = MFParams(0.005, 10, 0.001, iters)
-params4 = MFParams(0.001, 10, 0.001, iters)
+params1 = RunParams(0.001, 50, 0.001, iters)
+params2 = RunParams(0.005, 20, 0.001, iters)
+params3 = RunParams(0.005, 10, 0.001, iters)
+params4 = RunParams(0.001, 10, 0.001, iters)
 
 anna = [params1, params2, params3, params4]
 # Boris
 
-params5 = MFParams(0.001, 5, 0.001, iters)
-params6 = MFParams(0.01, 5, 0.001, iters)
-params7 = MFParams(0.005, 50, 0.001, iters)
+params5 = RunParams(0.001, 5, 0.001, iters)
+params6 = RunParams(0.01, 5, 0.001, iters)
+params7 = RunParams(0.005, 50, 0.001, iters)
 
 boris = [params5, params6, params7]
 
 
-def pkl_name(mf_params: MFParams) -> (str, str):
-    return ("pickle/mf_{}_{}_{}.pkl".format(mf_params.lr, mf_params.latent_factor, mf_params.reg),
-            "pickle_res/mf_{}_{}_{}.pkl".format(mf_params.lr, mf_params.latent_factor, mf_params.reg))
+def pkl_name(alg: str, mf_params: RunParams) -> (str, str):
+    return ("pickle/{}_{}_{}_{}.pkl".format(alg, mf_params.lr, mf_params.k, mf_params.reg),
+            "pickle_res/{}_{}_{}_{}.pkl".format(alg, mf_params.lr, mf_params.k, mf_params.reg))

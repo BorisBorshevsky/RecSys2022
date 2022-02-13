@@ -13,7 +13,7 @@ np.random.seed(SEED)
 
 def run(my_params):
     print("running on params: {}".format(my_params))
-    filename, results_name = pkl_name(my_params)
+    filename, results_name = pkl_name('mf', my_params)
 
     if os.path.exists(filename):
         print("start loading {}".format(filename))

@@ -1,9 +1,9 @@
-import tensorflow.compat.v1 as tf
-
-import time
-import numpy as np
 import os
+
 import math
+import numpy as np
+import tensorflow.compat.v1 as tf
+import time
 
 tf.disable_v2_behavior()
 
@@ -58,6 +58,8 @@ class AutoRec:
         self.result_path = result_path
         self.grad_clip = args.grad_clip
 
+        self.iters_done = 0
+
         # to be filled in prepare step
         self.input_R = None
         self.input_mask_R = None
@@ -68,13 +70,18 @@ class AutoRec:
         self.cost = None
         self.optimizer = None
 
-    def run(self):
+    def before_run(self):
         self.prepare_model()
         init = tf.global_variables_initializer()
         self.sess.run(init)
-        for epoch_itr in range(self.train_epoch):
+
+    def run(self, iters):
+        for epoch_itr in range(iters):
+            print("running step num: {}".format(self.iters_done))
             self.train_model(epoch_itr)
             self.test_model(epoch_itr)
+            self.iters_done += 1
+
         self.make_records()
 
     def prepare_model(self):
@@ -212,3 +219,6 @@ class AutoRec:
 
     def l2_norm(self, tensor):
         return tf.sqrt(tf.reduce_sum(tf.square(tensor)))
+
+    def get_rmse_results(self):
+        return list(enumerate(self.test_rmse_list))
