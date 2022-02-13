@@ -2,8 +2,9 @@ import os
 
 import matplotlib.pyplot as plt
 
-from constants import params, pkl_name, MFParams
+from constants import pkl_name, MFParams
 from serializer import load
+
 
 # init_params = params
 
@@ -14,7 +15,7 @@ def mf_data(params):
     return model, "RMSE - lr={} k={}".format(params.lr, params.latent_factor)
 
 
-def draw_plot():
+def draw_plot(limit = 100):
     models = os.listdir('pickle_res')
     for model in models:
         filename = model.replace(".pkl", "")
@@ -24,7 +25,7 @@ def draw_plot():
 
         y = [r[1] for r in res_init_params]
         x = [r[0] for r in res_init_params]
-        plt.plot(x, y, label=label)
+        plt.plot(x[:limit], y[:limit], label=label)
 
     plt.legend()
     plt.ylabel('RMSE')
@@ -33,4 +34,4 @@ def draw_plot():
     plt.show()
 
 
-draw_plot()
+draw_plot(200)
