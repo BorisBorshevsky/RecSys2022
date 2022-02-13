@@ -17,7 +17,7 @@ def tf_config():
 
 
 def build_params(args):
-    L = [0.001, 0.01, 0.1, 1, 10, 100]
+    L = [0.001, 0.01, 0.1, 1.0, 10.0, 100.0]
     K = [10, 20, 40, 80, 100, 200, 300, 400, 500]
 
     all_params = []
@@ -82,7 +82,6 @@ def main():
             params = futures_dict[future]
             try:
                 model = future.result()
-                
             except Exception as exc:
                 print('%r generated an exception: %s' % (params, exc))
             else:
