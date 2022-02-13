@@ -30,7 +30,7 @@ def get_results_path(optimizer_method, lr):
 
 
 
-RunParams = namedtuple('MFParams', [
+RunParams = namedtuple('RunParams', [
     'lr',
     'k',
     'reg',

@@ -19,7 +19,9 @@ Rating = namedtuple('Rating', [
     'item_train_set',
     'user_test_set',
     'item_test_set',
-    'data_set'
+    'num_users',
+    'num_items',
+    'data_set',
 ])
 
 
@@ -92,6 +94,8 @@ def _read_rating(path, filename, delim, num_users, num_items, num_total_ratings,
         item_train_set,
         user_test_set,
         item_test_set,
+        num_users,
+        num_items,
         data_set_name
     )
 

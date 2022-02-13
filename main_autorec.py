@@ -35,8 +35,8 @@ def run_on_params(p, args, rating: Rating):
                             p.reg,
                             p.k,
                             args,
-                            NUM_USERS_1M,
-                            NUM_ITEMS_1M,
+                            rating.num_users,
+                            rating.num_items,
                             rating,
                             result_path)
 
@@ -74,8 +74,8 @@ def main(data_set):
 
     all_params = build_params(args)
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=16) as executor:
-        futures_dict = {executor.submit(run_on_params, p, args, rating): p for p in all_params}
+    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
+        futures_dict = {executor.submit(run_on_params, p, args, rating): p for p in all_params[1:2]}
         for future in concurrent.futures.as_completed(futures_dict):
             params = futures_dict[future]
             try:
