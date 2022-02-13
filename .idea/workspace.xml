@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1cc29f77-0258-4629-9f81-e9bc0a514b26" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_mf.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_mf.py" afterDir="false" />
-    </list>
+    <list default="true" id="1cc29f77-0258-4629-9f81-e9bc0a514b26" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -50,7 +46,7 @@
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
@@ -156,7 +152,8 @@
       <workItem from="1643915983906" duration="5763000" />
       <workItem from="1644590988183" duration="8321000" />
       <workItem from="1644601596610" duration="278000" />
-      <workItem from="1644666573860" duration="22836000" />
+      <workItem from="1644666573860" duration="26040000" />
+      <workItem from="1644735634595" duration="3475000" />
     </task>
     <servers />
   </component>

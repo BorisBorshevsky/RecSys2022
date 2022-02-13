@@ -29,18 +29,20 @@ MFParams = namedtuple('MFParams', [
 
 params = MFParams(0.001, 5, 0.001, 20)
 
+iters = 400
+
 # Anna
-params1 = MFParams(0.001, 20, 0.001, 200)
-params2 = MFParams(0.01, 20, 0.001, 2000)
-params3 = MFParams(0.01, 10, 0.001, 200)
-params4 = MFParams(0.001, 10, 0.001, 200)
+params1 = MFParams(0.001, 50, 0.001, iters)
+params2 = MFParams(0.005, 20, 0.001, iters)
+params3 = MFParams(0.005, 10, 0.001, iters)
+params4 = MFParams(0.001, 10, 0.001, iters)
 
 anna = [params1, params2, params3, params4]
 # Boris
 
-params5 = MFParams(0.001, 5, 0.001, 1000)
-params6 = MFParams(0.01, 5, 0.001, 1000)
-params7 = MFParams(0.001, 50, 0.001, 1000)
+params5 = MFParams(0.001, 5, 0.001, iters)
+params6 = MFParams(0.01, 5, 0.001, iters)
+params7 = MFParams(0.005, 50, 0.001, iters)
 
 boris = [params5, params6, params7]
 
