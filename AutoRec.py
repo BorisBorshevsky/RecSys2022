@@ -9,8 +9,13 @@ tf.disable_v2_behavior()
 
 
 class AutoRec:
-    def __init__(self, sess, args,
-                 num_users, num_items,
+    def __init__(self,
+                 sess,
+                 lamda: float,
+                 k: int,
+                 args,
+                 num_users,
+                 num_items,
                  rating,
                  result_path):
 
@@ -35,7 +40,8 @@ class AutoRec:
         self.user_test_set = rating.user_test_set
         self.item_test_set = rating.item_test_set
 
-        self.hidden_neuron = args.hidden_neuron  # 500
+        # self.hidden_neuron = args.hidden_neuron  # 500
+        self.hidden_neuron = k # 500
         self.train_epoch = args.train_epoch  # 2000
         self.batch_size = args.batch_size  # 100
         self.num_batch = int(math.ceil(self.num_users / float(self.batch_size)))  # how many batches
@@ -49,7 +55,10 @@ class AutoRec:
         self.decay_step = self.decay_epoch_step * self.num_batch
         self.lr = tf.train.exponential_decay(self.base_lr, self.global_step,
                                              self.decay_step, 0.96, staircase=True)
-        self.lambda_value = args.lambda_value
+
+        #self.lambda_value = args.lambda_value
+        self.lambda_value = lamda
+
 
         self.train_cost_list = []
         self.test_cost_list = []
@@ -58,7 +67,7 @@ class AutoRec:
         self.result_path = result_path
         self.grad_clip = args.grad_clip
 
-        self.iters_done = 0
+        self.iter_done = 0
 
         # to be filled in prepare step
         self.input_R = None
@@ -77,10 +86,10 @@ class AutoRec:
 
     def run(self, iters):
         for epoch_itr in range(iters):
-            print("running step num: {}".format(self.iters_done))
-            self.train_model(epoch_itr)
-            self.test_model(epoch_itr)
-            self.iters_done += 1
+            print("running step num: {}".format(self.iter_done))
+            self.train_model(self.iter_done)
+            self.test_model(self.iter_done)
+            self.iter_done += 1
 
         self.make_records()
 
