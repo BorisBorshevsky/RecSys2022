@@ -79,8 +79,8 @@ class AutoRec:
         self.cost = None
         self.optimizer = None
 
-    def before_run(self):
-        self.prepare_model()
+    def before_run(self, f='sigmoid', g='identity'):
+        self.prepare_model(f, g)
         init = tf.global_variables_initializer()
         self.sess.run(init)
 
@@ -93,7 +93,7 @@ class AutoRec:
 
         self.make_records()
 
-    def prepare_model(self):
+    def prepare_model(self, f, g):
         self.input_R = tf.placeholder(dtype=tf.float32, shape=[None, self.num_items], name="input_R")
         self.input_mask_R = tf.placeholder(dtype=tf.float32, shape=[None, self.num_items], name="input_mask_R")
 
@@ -122,10 +122,28 @@ class AutoRec:
             dtype=tf.float32)
 
         pre_Encoder = tf.matmul(self.input_R, V) + mu
-        self.Encoder = tf.nn.sigmoid(pre_Encoder)
+
+        if f == 'sigmoid':
+            self.Encoder = tf.nn.sigmoid(pre_Encoder)
+        elif f == 'selu':
+            self.Encoder = tf.nn.selu(pre_Encoder)
+        elif f == 'softmax':
+            self.Encoder = tf.nn.softmax(pre_Encoder)
+        else:
+            raise
 
         pre_Decoder = tf.matmul(self.Encoder, W) + b
-        self.Decoder = tf.identity(pre_Decoder)
+
+        if g == 'identity':
+            self.Decoder = tf.identity(pre_Decoder) # G(.)
+        elif g == 'softmax':
+            self.Decoder = tf.softmax(pre_Decoder) # G(.)
+        elif g == 'selu':
+            self.Decoder = tf.selu(pre_Decoder) # G(.)
+        else:
+            raise
+
+
 
         pre_rec_cost = tf.multiply((self.input_R - self.Decoder), self.input_mask_R)
         rec_cost = tf.square(self.l2_norm(pre_rec_cost))

@@ -6,7 +6,7 @@ def setup_parser() -> argparse.ArgumentParser:
     parser.add_argument('--hidden_neuron', type=int, default=500)
     parser.add_argument('--lambda_value', type=float, default=1)
 
-    parser.add_argument('--train_epoch', type=int, default=200)
+    parser.add_argument('--train_epoch', type=int, default=400)
     parser.add_argument('--batch_size', type=int, default=100)
 
     parser.add_argument('--optimizer_method', choices=['Adam', 'RMSProp', 'Adagrad'], default='Adam')

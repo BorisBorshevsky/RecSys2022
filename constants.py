@@ -1,3 +1,4 @@
+import os
 from collections import namedtuple
 
 import time
@@ -57,6 +58,8 @@ params7 = RunParams(0.005, 50, 0.001, iters)
 boris = [params5, params6, params7]
 
 
-def pkl_name(alg: str, dataset: str, mf_params: RunParams) -> (str, str):
+def pkl_name(alg: str, dataset: str, mf_params: RunParams, extra="") -> (str, str):
+    if extra:
+        alg = alg + extra
     return ("pickle/{}/{}_{}_{}_{}.pkl".format(dataset, alg, mf_params.lr, mf_params.k, mf_params.reg),
             "pickle_res/{}/{}_{}_{}_{}.pkl".format(dataset, alg,  mf_params.lr, mf_params.k, mf_params.reg))

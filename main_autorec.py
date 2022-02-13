@@ -1,5 +1,3 @@
-import concurrent.futures
-
 import tensorflow.compat.v1 as tf
 
 from AutoRec import AutoRec
@@ -27,8 +25,12 @@ def build_params(args):
     return all_params
 
 
-def run_on_params(p, args, rating: Rating):
+g_options = ['identity', 'selu', 'softmax']
+f_options = ['sigmoid', 'selu', 'softmax']
+
+def run_on_params(p, args, rating: Rating, f='sigmoid', g='identity'):
     try:
+        tf.reset_default_graph()
         result_path = get_results_path(args.optimizer_method, args.base_lr)
         with tf.Session(config=tf_config()) as tf_sessions:
             model = AutoRec(tf_sessions,
@@ -41,15 +43,17 @@ def run_on_params(p, args, rating: Rating):
                             result_path)
 
             train_epoch = args.train_epoch
-            step = 5
-            model.before_run()
+            step = 50
+            model.before_run(f=f, g=g)
 
-            pick, data_file_name = pkl_name('Adam-AutoRec', rating.data_set, p)
+
+            pick, data_file_name = pkl_name('Adam-AutoRec', rating.data_set, p, extra="-f{}-g{}".format(f, g))
             for i in range(0, train_epoch, step):
                 model.run(step)
                 results = model.get_rmse_results()
                 print("start: dumping stats to {}", data_file_name)
                 dump(results, data_file_name)
+                print(results)
                 print("end  : dumping stats to {}", data_file_name)
 
             return model
@@ -73,17 +77,10 @@ def main(data_set):
     rating = read_ratings(data_set)
 
     all_params = build_params(args)
-
-    with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-        futures_dict = {executor.submit(run_on_params, p, args, rating): p for p in all_params}
-        for future in concurrent.futures.as_completed(futures_dict):
-            params = futures_dict[future]
-            try:
-                model = future.result()
-            except Exception as exc:
-                print('%r generated an exception: %s' % (params, exc))
-            else:
-                print("done params: {}".format(params))
+    for p in all_params:
+        for f in f_options:
+            for g in g_options:
+                run_on_params(p, args, rating, f=f, g=g)
 
 
 if __name__ == '__main__':
