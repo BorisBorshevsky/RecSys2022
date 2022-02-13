@@ -49,6 +49,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="PyConsoleOptionsProvider">
@@ -64,6 +65,8 @@
       <recent name="$PROJECT_DIR$" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pickle_res/1m" />
+      <recent name="$PROJECT_DIR$/pickle/1m" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -176,7 +179,7 @@
       <workItem from="1644590988183" duration="8321000" />
       <workItem from="1644601596610" duration="278000" />
       <workItem from="1644666573860" duration="26040000" />
-      <workItem from="1644735634595" duration="10537000" />
+      <workItem from="1644735634595" duration="15504000" />
     </task>
     <servers />
   </component>

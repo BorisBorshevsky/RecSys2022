@@ -3,27 +3,27 @@ import os
 
 import numpy as np
 
-from constants import PATH, NUM_USERS, NUM_ITEMS, NUM_TOTAL_RATINGS, SEED, pkl_name, boris, anna
-from data_preprocessor import read_rating
+from constants import SEED, pkl_name, boris, anna
+from data_preprocessor import read_ratings
 from mf import MF
 from serializer import dump, load
 
 np.random.seed(SEED)
 
 
-def run(my_params):
+def run(my_params, data_set='1m'):
     print("running on params: {}".format(my_params))
-    filename, results_name = pkl_name('mf', my_params)
+    filename, results_name = pkl_name('mf', data_set, my_params)
 
     if os.path.exists(filename):
         print("start loading {}".format(filename))
         model = load(filename)
         print("done  loading {}".format(filename))
     else:
-        rating = read_rating(PATH, NUM_USERS, NUM_ITEMS, NUM_TOTAL_RATINGS)
+        rating = read_ratings(data_set)
         model = MF(
             rating.R,
-            K=my_params.latent_factor,
+            K=my_params.k,
             alpha=my_params.lr,
             beta=my_params.reg,
         )
@@ -46,15 +46,15 @@ def run(my_params):
     return model
 
 
-def safe_run(param):
+def safe_run(param, data_set):
     try:
-        run(param)
+        run(param, data_set)
     except Exception as e:
-        print(param, e)
+        print(param, data_set, e)
 
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-    futures_dict = {executor.submit(safe_run, p): p for p in boris + anna}
+    futures_dict = {executor.submit(safe_run, p, '100k'): p for p in boris + anna}
     for future in concurrent.futures.as_completed(futures_dict):
         params = futures_dict[future]
         try:
@@ -62,4 +62,4 @@ with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
         except Exception as exc:
             print('%r generated an exception: %s' % (params, exc))
         else:
-            print("done params: {} after {} iters".format(params, model.iter_done))
+            print("done params: {}".format(params))

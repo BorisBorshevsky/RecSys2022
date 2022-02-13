@@ -1,8 +1,9 @@
-import numpy as np
-
 from collections import namedtuple
 
-from constants import TRAIN_RATIO
+import numpy as np
+
+from constants import TRAIN_RATIO, PATH_1M, NUM_USERS_1M, NUM_ITEMS_1M, NUM_TOTAL_RATINGS_1M, PATH_100K, NUM_USERS_100K, \
+    NUM_ITEMS_100K, NUM_TOTAL_RATINGS_100K
 
 Rating = namedtuple('Rating', [
     'R',
@@ -17,14 +18,16 @@ Rating = namedtuple('Rating', [
     'user_train_set',
     'item_train_set',
     'user_test_set',
-    'item_test_set'])
+    'item_test_set',
+    'data_set'
+])
 
 
-def read_rating(path, num_users, num_items, num_total_ratings) -> Rating:
+def _read_rating(path, filename, delim, num_users, num_items, num_total_ratings, data_set_name) -> Rating:
     one = 1  # a
     zero = 0  # b
 
-    fp = open(path + "ratings.dat")
+    fp = open(path + filename)
 
     user_train_set = set()
     user_test_set = set()
@@ -54,7 +57,7 @@ def read_rating(path, num_users, num_items, num_total_ratings) -> Rating:
     lines = fp.readlines()
     for idx, line in enumerate(lines):
         idx % 50000 == 0 and print("pre processing line num: {}".format(idx))
-        user, item, rating, ts = line.split("::")
+        user, item, rating, ts = line.split(delim)
         user_idx = int(user) - 1
         item_idx = int(item) - 1
         R[user_idx, item_idx] = int(rating)
@@ -88,5 +91,21 @@ def read_rating(path, num_users, num_items, num_total_ratings) -> Rating:
         user_train_set,
         item_train_set,
         user_test_set,
-        item_test_set
+        item_test_set,
+        data_set_name
     )
+
+
+def _ratings_1m():
+    return _read_rating(PATH_1M, "ratings.dat", "::", NUM_USERS_1M, NUM_ITEMS_1M, NUM_TOTAL_RATINGS_1M, '1m')
+
+
+def _ratings_100k():
+    return _read_rating(PATH_100K, 'u.data', "\t", NUM_USERS_100K, NUM_ITEMS_100K, NUM_TOTAL_RATINGS_100K, '100k')
+
+
+def read_ratings(dataset='1m'):
+    if dataset == '1m':
+        return _ratings_1m()
+    if dataset == '100k':
+        return _ratings_100k()

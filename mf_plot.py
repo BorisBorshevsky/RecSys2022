@@ -6,8 +6,8 @@ from constants import pkl_name, RunParams
 from serializer import load
 
 
-def data_load(alg: str, params: RunParams):
-    data, results = pkl_name(alg, params)
+def data_load(alg: str,data_set:str, params: RunParams):
+    data, results = pkl_name(alg,data_set, params)
     model = load(results)
     return model, "RMSE - {} - lr={} k={} l={}".format(alg, params.lr, params.k, params.reg)
 
@@ -15,14 +15,14 @@ def data_load(alg: str, params: RunParams):
 algs = frozenset(['mf', 'Adam-AutoRec'])
 
 
-def draw_plots(algs=algs, limit=100):
+def draw_plots(algs=algs,data_set='1m', limit=100):
     models = os.listdir('pickle_res')
     for model in models:
         filename = model.replace(".pkl", "")
         alg, lr, lf, reg = filename.split("_")
         if alg in algs:
             params = RunParams(float(lr), int(lf), float(reg), 0)
-            res_init_params, label = data_load(alg, params)
+            res_init_params, label = data_load(alg,data_set, params)
 
             y = [r[1] for r in res_init_params]
             x = [r[0] for r in res_init_params]
