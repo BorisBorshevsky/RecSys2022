@@ -9,10 +9,10 @@ from serializer import load
 def data_load(alg: str, data_set: str, params: RunParams):
     data, results = pkl_name(alg, data_set, params)
     model = load(results)
-    lable = "RMSE-{}-{} - lr={} k={} l={}".format(alg,data_set, params.lr, params.k, params.reg) \
+    label = "RMSE-{}-{} - lr={} k={}".format(alg,data_set, params.lr, params.k) \
         if alg == 'mf' else\
-        "RMSE-{}-{} - k={} l={}".format(alg,data_set, params.k, params.reg)
-    return model, lable
+        "RMSE-{}-{} - k={} lambda={}".format(alg,data_set, params.k, params.reg)
+    return model, label
 
 
 algs = frozenset(['mf', 'Adam-AutoRec'])
@@ -40,5 +40,5 @@ def draw_plots(algs=algs, data_set='1m', limit=100):
 if __name__ == '__main__':
     # draw_plots(algs=frozenset({'Adam-AutoRec'}), data_set='100k', limit=200)
     draw_plots(algs=frozenset({'mf'}), data_set='100k', limit=200)
-    # draw_plots(algs=frozenset({'mf'}), limit=200)
+    #draw_plots(algs=frozenset({'mf'}), limit=200)
     # draw_plots(limit=200)

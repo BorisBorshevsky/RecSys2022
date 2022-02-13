@@ -39,22 +39,20 @@ RunParams = namedtuple('RunParams', [
 
 params = RunParams(0.001, 5, 0.001, 20)
 
-iters = 2000
+iters = 200
 
-# Anna
 params1 = RunParams(0.001, 50, 0.001, iters)
 params2 = RunParams(0.005, 20, 0.001, iters)
 params3 = RunParams(0.005, 10, 0.001, iters)
 params4 = RunParams(0.001, 10, 0.001, iters)
 
-anna = [params1, params2, params3, params4]
-# Boris
+param_set1 = [params1, params2, params3, params4]
 
 params5 = RunParams(0.001, 5, 0.001, iters)
 params6 = RunParams(0.01, 5, 0.001, iters)
 params7 = RunParams(0.005, 50, 0.001, iters)
 
-boris = [params5, params6, params7]
+param_set2 = [params5, params6, params7]
 
 
 def pkl_name(alg: str, dataset: str, mf_params: RunParams) -> (str, str):

@@ -41,7 +41,7 @@ class AutoRec:
         self.item_test_set = rating.item_test_set
 
         # self.hidden_neuron = args.hidden_neuron  # 500
-        self.hidden_neuron = k # 500
+        self.hidden_neuron = k  # 500
         self.train_epoch = args.train_epoch  # 2000
         self.batch_size = args.batch_size  # 100
         self.num_batch = int(math.ceil(self.num_users / float(self.batch_size)))  # how many batches
@@ -56,9 +56,8 @@ class AutoRec:
         self.lr = tf.train.exponential_decay(self.base_lr, self.global_step,
                                              self.decay_step, 0.96, staircase=True)
 
-        #self.lambda_value = args.lambda_value
+        # self.lambda_value = args.lambda_value
         self.lambda_value = lamda
-
 
         self.train_cost_list = []
         self.test_cost_list = []
@@ -122,10 +121,10 @@ class AutoRec:
             dtype=tf.float32)
 
         pre_Encoder = tf.matmul(self.input_R, V) + mu
-        self.Encoder = tf.nn.sigmoid(pre_Encoder)
+        self.Encoder = tf.nn.sigmoid(pre_Encoder)  # g
 
         pre_Decoder = tf.matmul(self.Encoder, W) + b
-        self.Decoder = tf.identity(pre_Decoder)
+        self.Decoder = tf.identity(pre_Decoder)  # f
 
         pre_rec_cost = tf.multiply((self.input_R - self.Decoder), self.input_mask_R)
         rec_cost = tf.square(self.l2_norm(pre_rec_cost))
