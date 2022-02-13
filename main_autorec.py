@@ -24,8 +24,6 @@ def build_params(args):
     for l in L:
         for k in K:
             all_params.append(RunParams(k=k, epoch=args.train_epoch, lr=args.base_lr, reg=l))
-    import random
-    random.shuffle(all_params)
     return all_params
 
 
@@ -59,7 +57,7 @@ def run_on_params(p, args, rating: Rating):
         print("failed on params: {}, error: {}".format(p, e))
 
 
-def main():
+def main(data_set):
     print("TensorFlow version:", tf.__version__)
 
     # Setup seed
@@ -72,7 +70,7 @@ def main():
     parser = setup_parser()
     args = parser.parse_args()
 
-    rating = read_ratings()
+    rating = read_ratings(data_set)
 
     all_params = build_params(args)
 
@@ -89,4 +87,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    main(data_set="100k")
