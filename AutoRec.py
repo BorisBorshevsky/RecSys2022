@@ -137,9 +137,9 @@ class AutoRec:
         if g == 'identity':
             self.Decoder = tf.identity(pre_Decoder) # G(.)
         elif g == 'softmax':
-            self.Decoder = tf.softmax(pre_Decoder) # G(.)
+            self.Decoder = tf.nn.softmax(pre_Decoder) # G(.)
         elif g == 'selu':
-            self.Decoder = tf.selu(pre_Decoder) # G(.)
+            self.Decoder = tf.nn.selu(pre_Decoder) # G(.)
         else:
             raise
 

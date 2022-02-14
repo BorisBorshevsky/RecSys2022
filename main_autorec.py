@@ -24,11 +24,13 @@ def build_params(args):
             all_params.append(RunParams(k=k, epoch=args.train_epoch, lr=args.base_lr, reg=l))
     return all_params
 
+bestParams = [RunParams(lr=0.001, k=500, reg=0.01, epoch=400)]
+
 
 g_options = ['identity', 'selu', 'softmax']
 f_options = ['sigmoid', 'selu', 'softmax']
 
-def run_on_params(p, args, rating: Rating, f='sigmoid', g='identity'):
+def run_on_params(p: RunParams, args, rating: Rating, f='sigmoid', g='identity'):
     try:
         tf.reset_default_graph()
         result_path = get_results_path(args.optimizer_method, args.base_lr)
@@ -42,8 +44,8 @@ def run_on_params(p, args, rating: Rating, f='sigmoid', g='identity'):
                             rating,
                             result_path)
 
-            train_epoch = args.train_epoch
-            step = 50
+            train_epoch = p.epoch
+            step = min(train_epoch, 50)
             model.before_run(f=f, g=g)
 
 
@@ -76,7 +78,8 @@ def main(data_set):
 
     rating = read_ratings(data_set)
 
-    all_params = build_params(args)
+    # all_params = build_params(args)
+    all_params = bestParams
     for p in all_params:
         for f in f_options:
             for g in g_options:
@@ -84,4 +87,4 @@ def main(data_set):
 
 
 if __name__ == '__main__':
-    main(data_set="100k")
+    main(data_set="1m")
