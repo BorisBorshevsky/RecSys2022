@@ -3,7 +3,7 @@ import os
 
 import numpy as np
 
-from constants import SEED, pkl_name, boris, anna
+from constants import SEED, pkl_name, set_param_2, set_param_1
 from data_preprocessor import read_ratings
 from mf import MF
 from serializer import dump, load
@@ -54,7 +54,7 @@ def safe_run(param, data_set):
 
 
 with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
-    futures_dict = {executor.submit(safe_run, p, '100k'): p for p in boris + anna}
+    futures_dict = {executor.submit(safe_run, p, '100k'): p for p in set_param_2 + set_param_1}
     for future in concurrent.futures.as_completed(futures_dict):
         params = futures_dict[future]
         try:

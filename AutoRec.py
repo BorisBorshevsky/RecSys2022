@@ -41,7 +41,7 @@ class AutoRec:
         self.item_test_set = rating.item_test_set
 
         # self.hidden_neuron = args.hidden_neuron  # 500
-        self.hidden_neuron = k # 500
+        self.hidden_neuron = k  # 500
         self.train_epoch = args.train_epoch  # 2000
         self.batch_size = args.batch_size  # 100
         self.num_batch = int(math.ceil(self.num_users / float(self.batch_size)))  # how many batches
@@ -56,9 +56,8 @@ class AutoRec:
         self.lr = tf.train.exponential_decay(self.base_lr, self.global_step,
                                              self.decay_step, 0.96, staircase=True)
 
-        #self.lambda_value = args.lambda_value
+        # self.lambda_value = args.lambda_value
         self.lambda_value = lamda
-
 
         self.train_cost_list = []
         self.test_cost_list = []
@@ -74,6 +73,7 @@ class AutoRec:
         self.input_mask_R = None
 
         self.Encoder = None
+        self.Dropout = None
         self.Decoder = None
 
         self.cost = None
@@ -132,18 +132,18 @@ class AutoRec:
         else:
             raise
 
-        pre_Decoder = tf.matmul(self.Encoder, W) + b
+        self.Dropout = tf.nn.dropout(self.Encoder, rate=2 / 3, seed=1)
+
+        pre_Decoder = tf.matmul(self.Dropout, W) + b
 
         if g == 'identity':
-            self.Decoder = tf.identity(pre_Decoder) # G(.)
+            self.Decoder = tf.identity(pre_Decoder)  # g(.)
         elif g == 'softmax':
-            self.Decoder = tf.nn.softmax(pre_Decoder) # G(.)
+            self.Decoder = tf.nn.softmax(pre_Decoder)  # g(.)
         elif g == 'selu':
-            self.Decoder = tf.nn.selu(pre_Decoder) # G(.)
+            self.Decoder = tf.nn.selu(pre_Decoder)  # g(.)
         else:
             raise
-
-
 
         pre_rec_cost = tf.multiply((self.input_R - self.Decoder), self.input_mask_R)
         rec_cost = tf.square(self.l2_norm(pre_rec_cost))
@@ -181,7 +181,7 @@ class AutoRec:
                 batch_set_idx = random_perm_doc_idx[i * self.batch_size: (i + 1) * self.batch_size]
 
             _, Cost = self.sess.run(
-                [self.optimizer, self.cost],
+                [self.optimizer, self.cost, ],
                 feed_dict={self.input_R: self.train_R[batch_set_idx, :],
                            self.input_mask_R: self.train_mask_R[batch_set_idx, :]})
 

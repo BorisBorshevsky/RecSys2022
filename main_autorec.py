@@ -26,9 +26,9 @@ def build_params(args):
 
 bestParams = [RunParams(lr=0.001, k=500, reg=0.01, epoch=400)]
 
+g_options = ['identity']  # , 'selu', 'softmax']
+f_options = ['sigmoid']  # , 'selu', 'softmax']
 
-g_options = ['identity', 'selu', 'softmax']
-f_options = ['sigmoid', 'selu', 'softmax']
 
 def run_on_params(p: RunParams, args, rating: Rating, f='sigmoid', g='identity'):
     try:
@@ -47,7 +47,6 @@ def run_on_params(p: RunParams, args, rating: Rating, f='sigmoid', g='identity')
             train_epoch = p.epoch
             step = min(train_epoch, 50)
             model.before_run(f=f, g=g)
-
 
             pick, data_file_name = pkl_name('Adam-AutoRec', rating.data_set, p, extra="-f{}-g{}".format(f, g))
             for i in range(0, train_epoch, step):
@@ -87,4 +86,4 @@ def main(data_set):
 
 
 if __name__ == '__main__':
-    main(data_set="1m")
+    main(data_set="100k")
