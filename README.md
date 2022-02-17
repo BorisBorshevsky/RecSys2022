@@ -1,6 +1,14 @@
+
+## Running Updated AutoRec model
+Includes the AutoRec model with our improvements: different combinations of the f() and g() activation functions, and include 
+or exclude the Dropout layer:
+```
+python main_autorec.py
+```
+
 ## Running MF model
 ```
-python main.mf
+python main_mf.py
 ```
 
 ## Drawing plots of results
