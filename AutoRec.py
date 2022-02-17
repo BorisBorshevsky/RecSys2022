@@ -258,6 +258,6 @@ class AutoRec:
 
 
 # AutoRec(R, K, lamda)
-    V, W, mu, b = init_varialbles(num_items,K, Lamda)
-    for iter in iterations:
+#     V, W, mu, b = init_varialbles(num_items,K, Lamda)
+#     for iter in iterations:
 

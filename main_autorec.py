@@ -52,7 +52,7 @@ def run_on_params(p: RunParams, args, rating: Rating, f='sigmoid', g='identity',
 
             train_epoch = p.epoch
             step = min(train_epoch, 50)
-            model.before_run(f=f, g=g)
+            model.before_run(f=f, g=g, dropout=dropout)
 
             pick, data_file_name = pkl_name('Updated-AutoRec', rating.data_set, p,
                                             extra="{}-f{}-g{}".format("-ydropout" if dropout else "-ndropout", f, g))
@@ -84,8 +84,8 @@ def main(data_set):
 
     rating = read_ratings(data_set)
 
-    all_params = build_params(args)
-    # all_params = bestParams
+    # all_params = build_params(args)
+    all_params = bestParams
     for p in all_params:
         for f in f_options:
             for g in g_options:
