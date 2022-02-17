@@ -257,7 +257,4 @@ class AutoRec:
         return list(enumerate(self.test_rmse_list))
 
 
-# AutoRec(R, K, lamda)
-    V, W, mu, b = init_varialbles(num_items,K, Lamda)
-    for iter in iterations:
 

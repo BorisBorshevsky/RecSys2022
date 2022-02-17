@@ -61,7 +61,7 @@ if __name__ == '__main__':
     # draw_plots(algs=frozenset({'Adam-AutoRec'}), data_set='1m', limit=200)
     # draw_plots(algs=frozenset({'New-AutoRec'}), data_set='1m', limit=200)
     # draw_plots(algs={'mf'}, data_set='1m', limit=200)
-    draw_plots(data_set='100k', limit=200, str_contains="mf_")
+    draw_plots(data_set='1m', limit=500, str_contains="Updated")
     # draw_plots(algs=frozenset({}), data_set='100k', limit=400, str_contains="-f")
     # draw_plots(algs={}, data_set='1m', limit=400, str_contains="New-AutoRec-", str_exclude="")
     # draw_plots(algs={}, data_set='100k', limit=400, str_contains="fsigmoid-gselu", str_exclude="")
