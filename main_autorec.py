@@ -24,13 +24,19 @@ def build_params(args):
             all_params.append(RunParams(k=k, epoch=args.train_epoch, lr=args.base_lr, reg=l))
     return all_params
 
-bestParams = [RunParams(lr=0.001, k=500, reg=0.01, epoch=400)]
 
-g_options = ['identity']  # , 'selu', 'softmax']
-f_options = ['sigmoid']  # , 'selu', 'softmax']
+bestParams = [RunParams(lr=0.001, k=500, reg=1.0, epoch=400)]
+
+# g_options = ['identity', 'selu', 'softmax', 'sigmoid']
+g_options = ['identity', 'selu', 'sigmoid']
+# g_options = ['selu' ]
+
+# f_options = ['sigmoid', 'selu', 'softmax', 'identity']
+f_options = ['sigmoid', 'selu', 'identity']
+# f_options = ['sigmoid']
 
 
-def run_on_params(p: RunParams, args, rating: Rating, f='sigmoid', g='identity'):
+def run_on_params(p: RunParams, args, rating: Rating, f='sigmoid', g='identity', dropout=False):
     try:
         tf.reset_default_graph()
         result_path = get_results_path(args.optimizer_method, args.base_lr)
@@ -48,7 +54,8 @@ def run_on_params(p: RunParams, args, rating: Rating, f='sigmoid', g='identity')
             step = min(train_epoch, 50)
             model.before_run(f=f, g=g)
 
-            pick, data_file_name = pkl_name('Adam-AutoRec', rating.data_set, p, extra="-f{}-g{}".format(f, g))
+            pick, data_file_name = pkl_name('Updated-AutoRec', rating.data_set, p,
+                                            extra="{}-f{}-g{}".format("-ydropout" if dropout else "-ndropout", f, g))
             for i in range(0, train_epoch, step):
                 model.run(step)
                 results = model.get_rmse_results()
@@ -77,13 +84,14 @@ def main(data_set):
 
     rating = read_ratings(data_set)
 
-    # all_params = build_params(args)
-    all_params = bestParams
+    all_params = build_params(args)
+    # all_params = bestParams
     for p in all_params:
         for f in f_options:
             for g in g_options:
-                run_on_params(p, args, rating, f=f, g=g)
+                run_on_params(p, args, rating, f=f, g=g, dropout=True)
+                run_on_params(p, args, rating, f=f, g=g, dropout=False)
 
 
 if __name__ == '__main__':
-    main(data_set="100k")
+    main(data_set="1m")

@@ -91,3 +91,22 @@ class MF(object):
         Compute the full matrix using the resultant biases, P and Q
         """
         return self.b + self.b_u[:, np.newaxis] + self.b_i[np.newaxis:, ] + self.P.dot(self.Q.T)
+
+
+#
+# def mf(R, K, alpha, beta):
+#     P, Q = init_latent_feature_matrices(K, num_users, num_items)
+#     b_i, b_u = init_biases(num_users, num_items)
+#
+#     for iter in iters:
+#
+#         # we want to run only on a sample of the matrix
+#         samples = get_samples()
+#
+#         for sample in samples:
+#             prediction = get_prediction(sample)
+#             error = get_error(prediction, sample)
+#             b_i, b_u = update_biases(alpha, beta, error)
+#             P, Q = update_latent_feature_matrices(alpha, beta, error)
+#
+#

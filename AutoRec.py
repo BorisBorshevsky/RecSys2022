@@ -79,8 +79,8 @@ class AutoRec:
         self.cost = None
         self.optimizer = None
 
-    def before_run(self, f='sigmoid', g='identity'):
-        self.prepare_model(f, g)
+    def before_run(self, f='sigmoid', g='identity', dropout=False):
+        self.prepare_model(f, g, dropout)
         init = tf.global_variables_initializer()
         self.sess.run(init)
 
@@ -93,7 +93,7 @@ class AutoRec:
 
         self.make_records()
 
-    def prepare_model(self, f, g):
+    def prepare_model(self, f, g, dropout):
         self.input_R = tf.placeholder(dtype=tf.float32, shape=[None, self.num_items], name="input_R")
         self.input_mask_R = tf.placeholder(dtype=tf.float32, shape=[None, self.num_items], name="input_mask_R")
 
@@ -129,12 +129,16 @@ class AutoRec:
             self.Encoder = tf.nn.selu(pre_Encoder)
         elif f == 'softmax':
             self.Encoder = tf.nn.softmax(pre_Encoder)
+        elif f == 'identity':
+            self.Encoder = tf.identity(pre_Encoder)
         else:
             raise
 
-        self.Dropout = tf.nn.dropout(self.Encoder, rate=2 / 3, seed=1)
-
-        pre_Decoder = tf.matmul(self.Dropout, W) + b
+        if dropout:
+            self.Dropout = tf.nn.dropout(self.Encoder, rate=0.65)
+            pre_Decoder = tf.matmul(self.Dropout, W) + b
+        else:
+            pre_Decoder = tf.matmul(self.Encoder, W) + b
 
         if g == 'identity':
             self.Decoder = tf.identity(pre_Decoder)  # g(.)
@@ -142,6 +146,8 @@ class AutoRec:
             self.Decoder = tf.nn.softmax(pre_Decoder)  # g(.)
         elif g == 'selu':
             self.Decoder = tf.nn.selu(pre_Decoder)  # g(.)
+        elif g == 'sigmoid':
+            self.Decoder = tf.nn.sigmoid(pre_Decoder)
         else:
             raise
 
@@ -181,7 +187,7 @@ class AutoRec:
                 batch_set_idx = random_perm_doc_idx[i * self.batch_size: (i + 1) * self.batch_size]
 
             _, Cost = self.sess.run(
-                [self.optimizer, self.cost, ],
+                [self.optimizer, self.cost],
                 feed_dict={self.input_R: self.train_R[batch_set_idx, :],
                            self.input_mask_R: self.train_mask_R[batch_set_idx, :]})
 
@@ -249,3 +255,9 @@ class AutoRec:
 
     def get_rmse_results(self):
         return list(enumerate(self.test_rmse_list))
+
+
+# AutoRec(R, K, lamda)
+    V, W, mu, b = init_varialbles(num_items,K, Lamda)
+    for iter in iterations:
+
